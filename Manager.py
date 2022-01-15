@@ -120,10 +120,10 @@ def GetData():
 class Ui_Form(object):
     def file2(self):
         global uName, Pass, Host, DataBase
-        uName = self.user_name.text()
-        Pass = self.password.text()
-        Host = self.ip_host.text()
-        DataBase = self.data_base.text()
+        uName = 'admin_pytont1'#self.user_name.text()
+        Pass = 'XTZSbPs4Sq'#self.password.text()
+        Host = '5.63.161.115'#self.ip_host.text()
+        DataBase = 'admin_pytont1'#self.data_base.text()
         self.ui = MainWindow()
 
     def setupUi(self, Form):
@@ -1900,7 +1900,7 @@ class Ui_Student_Replace_window(object):
         self.label_6.setText(_translate("Student_Replace_window", "Email"))
         self.label_7.setText(_translate("Student_Replace_window", "Passport ID"))
         self.label_9.setText(_translate("Student_Replace_window", "ID"))
-        for i in range(len(audience_dict)):
+        for i in range(len(student_dict)):
             self.student_replace_ID_comboBox.setItemText(i, _translate("Student_Replace_window", str(i+1)))
         self.student_replace_pushButton.setText(_translate("Student_Replace_window", "OK"))
 class Ui_Subject_Enter_Window(object):
@@ -3160,8 +3160,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.ui.window_restore_button.setIcon(QtGui.QIcon(u"./icons/icons8-restore-down-48.png"))
 
 
-
-    ### add new row 
+  ### add new row 
     def Replace(self,name):
         if name == "Student":            
             # Calling replace window
