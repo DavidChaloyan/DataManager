@@ -137,16 +137,17 @@ class Ui_Form(object):
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
         self.widget = QtWidgets.QWidget(Form)
         self.widget.setMaximumSize(QtCore.QSize(16777215, 16777215))
-        self.widget.setStyleSheet(".QWidget{background-color: rgb(25,25, 40);}")
+        self.widget.setStyleSheet("background-color: #585858")
         self.widget.setObjectName("widget")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.widget)
-        self.verticalLayout_2.setContentsMargins(9, 0, 0, 0)
+        self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout()
         self.verticalLayout_3.setContentsMargins(-1, 15, -1, -1)
         self.verticalLayout_3.setObjectName("verticalLayout_3")
         self.frame = QtWidgets.QFrame(self.widget)
         self.frame.setMinimumSize(QtCore.QSize(0, 100))
+        self.frame.setStyleSheet("background-color: rgb(0, 0, 0);")
         self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame.setObjectName("frame")
@@ -160,10 +161,11 @@ class Ui_Form(object):
         self.pushButton_2.setSizePolicy(sizePolicy)
         self.pushButton_2.setMinimumSize(QtCore.QSize(100, 100))
         self.pushButton_2.setMaximumSize(QtCore.QSize(100, 16777215))
-        self.pushButton_2.setStyleSheet("background-color: rgb(25, 25, 40);\n")
+        self.pushButton_2.setStyleSheet("background-color: #3E3D3E;\n"
+"")
         self.pushButton_2.setText("")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(":/icons/icons8-logo-48.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("icons8-logo-48.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton_2.setIcon(icon)
         self.pushButton_2.setIconSize(QtCore.QSize(100, 100))
         self.pushButton_2.setFlat(True)
@@ -177,11 +179,14 @@ class Ui_Form(object):
         self.pushButton_5.setMaximumSize(QtCore.QSize(100, 100))
         self.pushButton_5.setText("")
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("../../modern-login-main/icons/Network-Ip-Address-icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon1.addPixmap(QtGui.QPixmap("icons/Network-Ip-Address-icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton_5.setIcon(icon1)
         self.pushButton_5.setIconSize(QtCore.QSize(50, 50))
         self.pushButton_5.setObjectName("pushButton_5")
         self.formLayout_2.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.pushButton_5)
+        self.pushButton_5.setStyleSheet("background-color: #411E8F")
+        
+     
         self.line = QtWidgets.QFrame(self.widget)
         self.line.setStyleSheet("border: 2px solid white;")
         self.line.setFrameShape(QtWidgets.QFrame.HLine)
@@ -192,11 +197,12 @@ class Ui_Form(object):
         self.pushButton_6.setMaximumSize(QtCore.QSize(100, 100))
         self.pushButton_6.setText("")
         icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap("../../modern-login-main/icons/database-reload.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon2.addPixmap(QtGui.QPixmap("icons/database-reload.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton_6.setIcon(icon2)
         self.pushButton_6.setIconSize(QtCore.QSize(50, 50))
         self.pushButton_6.setObjectName("pushButton_6")
         self.formLayout_2.setWidget(3, QtWidgets.QFormLayout.LabelRole, self.pushButton_6)
+        self.pushButton_6.setStyleSheet("background-color: #411E8F")
         self.line_2 = QtWidgets.QFrame(self.widget)
         self.line_2.setStyleSheet("border: 2px solid grey;")
         self.line_2.setFrameShape(QtWidgets.QFrame.HLine)
@@ -207,11 +213,12 @@ class Ui_Form(object):
         self.pushButton_7.setMaximumSize(QtCore.QSize(100, 100))
         self.pushButton_7.setText("")
         icon3 = QtGui.QIcon()
-        icon3.addPixmap(QtGui.QPixmap("../../modern-login-main/icons/pngkey.com-avatar-png-3012756.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon3.addPixmap(QtGui.QPixmap("icons/pngkey.com-avatar-png-3012756.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton_7.setIcon(icon3)
         self.pushButton_7.setIconSize(QtCore.QSize(50, 50))
         self.pushButton_7.setObjectName("pushButton_7")
         self.formLayout_2.setWidget(5, QtWidgets.QFormLayout.LabelRole, self.pushButton_7)
+        self.pushButton_7.setStyleSheet("background-color: #411E8F")
         self.line_3 = QtWidgets.QFrame(self.widget)
         self.line_3.setStyleSheet("border: 2px solid white;")
         self.line_3.setFrameShape(QtWidgets.QFrame.HLine)
@@ -222,11 +229,12 @@ class Ui_Form(object):
         self.pushButton_8.setMaximumSize(QtCore.QSize(100, 100))
         self.pushButton_8.setText("")
         icon4 = QtGui.QIcon()
-        icon4.addPixmap(QtGui.QPixmap("../../modern-login-main/icons/PinClipart.com_ship-clipart-black-and_1303682.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon4.addPixmap(QtGui.QPixmap("icons/PinClipart.com_ship-clipart-black-and_1303682.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton_8.setIcon(icon4)
         self.pushButton_8.setIconSize(QtCore.QSize(50, 50))
         self.pushButton_8.setObjectName("pushButton_8")
         self.formLayout_2.setWidget(7, QtWidgets.QFormLayout.LabelRole, self.pushButton_8)
+        self.pushButton_8.setStyleSheet("background-color: #411E8F")
         self.line_5 = QtWidgets.QFrame(self.widget)
         self.line_5.setStyleSheet("border: 2px solid grey;")
         self.line_5.setFrameShape(QtWidgets.QFrame.HLine)
@@ -250,23 +258,23 @@ class Ui_Form(object):
         self.sign_in.setMinimumSize(QtCore.QSize(0, 60))
         self.sign_in.setMouseTracking(False)
         self.sign_in.setAutoFillBackground(False)
-        self.sign_in.setStyleSheet("QPushButton{color: rgb(231, 231, 231);\n"
-                                   "selection-color: rgb(84, 64, 206);\n"
-                                   "selection-background-color: rgb(81, 64, 201);\n"
-                                   "font: 17pt \"Verdana\";\n"
-                                   "border: 2px solid grey;\n"
-                                   "padding: 5px;\n"
-                                   "border-radius: 3px;\n"
-                                   "opacity: 200;color: rgb(231, 231, 231);\n"
-                                   "selection-color: rgb(84, 64, 206);\n"
-                                   "selection-background-color: rgb(81, 64, 201);\n"
-                                   "font: 17pt \"Verdana\";\n"
-                                   "border: 2px solid grey;\n"
-                                   "padding: 5px;\n"
-                                   "border-radius: 3px;\n"
-                                   "opacity: 200;}\n"
-                                   "QPushButton::pressed{\n"
-                                   "background-color:  #6042ea}")
+        self.sign_in.setStyleSheet("QPushButton{background-color: black;\n"
+                                    "selection-color: rgb(84, 64, 206);\n"
+                                    "selection-background-color: rgb(81, 64, 201);\n"
+                                    "font: 17pt \"Verdana\";\n"
+                                    "border: 2px solid grey;\n"
+                                    "padding: 5px;\n"
+                                    "border-radius: 3px;\n"
+                                    "opacity: 200;color: rgb(231, 231, 231);\n"
+                                    "selection-color: rgb(84, 64, 206);\n"
+                                    "selection-background-color: rgb(81, 64, 201);\n"
+                                    "font: 17pt \"Verdana\";\n"
+                                    "border: 2px solid grey;\n"
+                                    "padding: 5px;\n"
+                                    "border-radius: 3px;\n"
+                                    "opacity: 200;}\n"
+                                    "QPushButton::pressed{\n"
+                                    "background-color:  #310A5D}")
         self.sign_in.setLocale(QtCore.QLocale(QtCore.QLocale.English, QtCore.QLocale.UnitedStates))
         self.sign_in.setIconSize(QtCore.QSize(16, 16))
         self.sign_in.setAutoDefault(False)
@@ -285,6 +293,7 @@ class Ui_Form(object):
         self.ip_host.setMaxLength(9999999)
         self.ip_host.setObjectName("ip_host")
         self.formLayout_2.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.ip_host)
+        self.ip_host.setStyleSheet("background-color: #A4A4A4;")
         self.data_base = QtWidgets.QLineEdit(self.widget)
         self.data_base.setMinimumSize(QtCore.QSize(256, 60))
         font = QtGui.QFont()
@@ -294,6 +303,7 @@ class Ui_Form(object):
         self.data_base.setMaxLength(9999999)
         self.data_base.setObjectName("data_base")
         self.formLayout_2.setWidget(3, QtWidgets.QFormLayout.FieldRole, self.data_base)
+        self.data_base.setStyleSheet("background-color: #A4A4A4")
         self.password = QtWidgets.QLineEdit(self.widget)
         self.password.setMinimumSize(QtCore.QSize(256, 60))
         font = QtGui.QFont()
@@ -303,6 +313,7 @@ class Ui_Form(object):
         self.password.setMaxLength(9999999)
         self.password.setObjectName("password")
         self.formLayout_2.setWidget(7, QtWidgets.QFormLayout.FieldRole, self.password)
+        self.password.setStyleSheet("background-color: #A4A4A4")
         self.user_name = QtWidgets.QLineEdit(self.widget)
         self.user_name.setMinimumSize(QtCore.QSize(256, 60))
         font = QtGui.QFont()
@@ -313,12 +324,18 @@ class Ui_Form(object):
         self.user_name.setPlaceholderText("Username")
         self.user_name.setObjectName("user_name")
         self.formLayout_2.setWidget(5, QtWidgets.QFormLayout.FieldRole, self.user_name)
+        self.user_name.setStyleSheet("background-color: #A4A4A4")
         self.verticalLayout_3.addLayout(self.formLayout_2)
         spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.verticalLayout_3.addItem(spacerItem1)
+        self.label = QtWidgets.QLabel(self.widget)
+        self.label.setTextFormat(QtCore.Qt.PlainText)
+        self.label.setObjectName("label")
+        self.verticalLayout_3.addWidget(self.label, 0, QtCore.Qt.AlignHCenter)
         self.verticalLayout_2.addLayout(self.verticalLayout_3)
         self.horizontalLayout_3.addWidget(self.widget)
         self.verticalLayout.addLayout(self.horizontalLayout_3)
+       
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
@@ -330,6 +347,7 @@ class Ui_Form(object):
         self.ip_host.setPlaceholderText(_translate("Form", "Host"))
         self.data_base.setPlaceholderText(_translate("Form", "Data Base"))
         self.password.setPlaceholderText(_translate("Form", "Password"))
+        self.label.setText(_translate("Form", "Powered by ColoAI."))
         
 
 ### ENTER/REPLACE WINDOW CLASSES
