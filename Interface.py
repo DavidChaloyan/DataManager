@@ -1259,5 +1259,5 @@ class Ui_MainWindow(object):
                                                   "cial inteligence solutions.\n\n"))
         self.facebook_link_label.setText(_translate("MainWindow", "<a href=\"https://www.facebook.com/ColoArtInt\">Facebook</a>"))
         self.source_code_link_label.setText(_translate("MainWindow", "<a href=\"https://github.com/00kar/DataManager\">Source code</a>"))
-        self.version_label.setText(_translate("MainWindow", "Version 1.0 | Copyright ColoAi Co."))
+        self.version_label.setText(_translate("MainWindow", "Version 1.1 | Copyright ColoAi Co."))
         self.help_button.setText(_translate("MainWindow", "Help"))
