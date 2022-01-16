@@ -79,7 +79,7 @@ def GetData():
     global STUDENTS, GROUPS, S2G, POSITION, STAFF, INSTRUCTOR, AUDIENCE, CATEGORY, SUBJECT, LEARNING_TYPE, SCHEDULE
     STUDENTS, GROUPS, S2G, POSITION, STAFF, INSTRUCTOR, AUDIENCE, CATEGORY, SUBJECT, LEARNING_TYPE, SCHEDULE = RES_LIST
 
-    global student_dict, group_dict, position_dict, staff_dict, instructor_dict, audience_dict, category_dict, subject_dict, lType_dict,  lType_ID_dict, audience_ID_dict, staff_ID_dict, group_ID_dict, subject_ID_dict
+    global student_dict, group_dict, position_dict, staff_dict, instructor_dict, audience_dict, category_dict, subject_dict, lType_dict,  lType_ID_dict, audience_ID_dict, staff_ID_dict, group_ID_dict, subject_ID_dict, category_ID_dict
     student_dict = dict()
     group_dict = dict()
     position_dict = dict()
@@ -94,6 +94,7 @@ def GetData():
     staff_ID_dict = dict()
     group_ID_dict = dict()
     subject_ID_dict = dict()
+    category_ID_dict = dict()
 
     for x in range(len(STUDENTS)):
         student_dict[str(STUDENTS.Name[x]) + " " + str(STUDENTS.Last_Name[x])] = STUDENTS.Student_ID[x]
@@ -138,6 +139,9 @@ def GetData():
 
     for x in range(len(SUBJECT)):
         subject_ID_dict[SUBJECT.Subject_ID[x]] = SUBJECT.Title[x]
+
+    for x in range(len(CATEGORY)):
+        category_ID_dict[CATEGORY.Category_ID[x]] = CATEGORY.Subject_Category[x]
 
 
 
@@ -2624,8 +2628,8 @@ class MainWindow(QtWidgets.QMainWindow):
 
                 audienceList = list()
                 audienceList += audience_dict.values()
-
-                if int(readID) in audienceList:
+               
+                if readID in audienceList:
                     errorDict["This ID already Exist"] = False
                 elif readID.isdigit():
                     errorDict["IDError"] = True
@@ -3037,8 +3041,9 @@ class MainWindow(QtWidgets.QMainWindow):
             rowPosition = self.ui.subject_tableWidget.rowCount()
             self.ui.subject_tableWidget.insertRow(rowPosition)
             # Create widget
+
             self.create_table_widget(rowPosition, 0, str(SUBJECT.Subject_ID[x]), "subject_tableWidget")
-            self.create_table_widget(rowPosition, 1, str(list(category_dict)[x]), "subject_tableWidget")
+            self.create_table_widget(rowPosition, 1, str(category_ID_dict[SUBJECT.Category_ID[x]]), "subject_tableWidget")
             self.create_table_widget(rowPosition, 2, str(SUBJECT.Title[x]), "subject_tableWidget")
             self.create_table_widget(rowPosition, 3, str(SUBJECT.Description[x]), "subject_tableWidget")
             self.create_table_widget(rowPosition, 4, str(SUBJECT.Price[x]), "subject_tableWidget")
@@ -3047,7 +3052,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.subject_add_button.clicked.connect(lambda: self.addrow("Subject"))
         self.ui.subject_replace_button.clicked.connect(lambda: self.Replace("Subject"))
 
-    ##############################anpatrast
+   
     ### SCHEDULE
     def show_schedule(self):
         for x in range(len(SCHEDULE)):
@@ -3055,9 +3060,10 @@ class MainWindow(QtWidgets.QMainWindow):
             rowPosition = self.ui.schedule_tableWidget.rowCount()
             self.ui.schedule_tableWidget.insertRow(rowPosition)
             # Create widget
+
             self.create_table_widget(rowPosition, 0, str(SCHEDULE.Schedule_ID[x]), "schedule_tableWidget")
             self.create_table_widget(rowPosition, 1, str(group_ID_dict[SCHEDULE.Group_ID[x]]), "schedule_tableWidget")
-            self.create_table_widget(rowPosition, 2, str(staff_ID_dict[INSTRUCTOR.Staff_ID[x]]), "schedule_tableWidget")
+            self.create_table_widget(rowPosition, 2, str(staff_ID_dict[SCHEDULE.Instructor_ID[x]]), "schedule_tableWidget")
             self.create_table_widget(rowPosition, 3, str(subject_ID_dict[SCHEDULE.Subject_ID[x]]), "schedule_tableWidget")
             self.create_table_widget(rowPosition, 4, str(audience_ID_dict[SCHEDULE.Audience_ID[x]]), "schedule_tableWidget")
             self.create_table_widget(rowPosition, 5, str(lType_ID_dict[SCHEDULE.Learning_Type_ID[x]]), "schedule_tableWidget")
