@@ -79,7 +79,7 @@ def GetData():
     global STUDENTS, GROUPS, S2G, POSITION, STAFF, INSTRUCTOR, AUDIENCE, CATEGORY, SUBJECT, LEARNING_TYPE, SCHEDULE
     STUDENTS, GROUPS, S2G, POSITION, STAFF, INSTRUCTOR, AUDIENCE, CATEGORY, SUBJECT, LEARNING_TYPE, SCHEDULE = RES_LIST
 
-    global student_dict, group_dict, position_dict, staff_dict, instructor_dict, audience_dict, category_dict, subject_dict, lType_dict,  lType_ID_dict, audience_ID_dict, staff_ID_dict, group_ID_dict, subject_ID_dict, category_ID_dict
+    global student_dict, group_dict, position_dict, staff_dict, instructor_dict, audience_dict, category_dict, subject_dict, lType_dict,  lType_ID_dict, audience_ID_dict, staff_ID_dict, group_ID_dict, subject_ID_dict, category_ID_dict, position_ID_dict
     student_dict = dict()
     group_dict = dict()
     position_dict = dict()
@@ -95,6 +95,7 @@ def GetData():
     group_ID_dict = dict()
     subject_ID_dict = dict()
     category_ID_dict = dict()
+    position_ID_dict = dict()
 
     for x in range(len(STUDENTS)):
         student_dict[str(STUDENTS.Name[x]) + " " + str(STUDENTS.Last_Name[x])] = STUDENTS.Student_ID[x]
@@ -142,6 +143,10 @@ def GetData():
 
     for x in range(len(CATEGORY)):
         category_ID_dict[CATEGORY.Category_ID[x]] = CATEGORY.Subject_Category[x]
+
+    for x in range(len(POSITION)):
+        position_ID_dict[POSITION.Position_ID[x]] = POSITION.Title[x]
+
 
 
 
@@ -2507,7 +2512,7 @@ class MainWindow(QtWidgets.QMainWindow):
                     self.create_table_widget(rowPosition, 5, str(readAddress), "staff_tableWidget")
                     self.create_table_widget(rowPosition, 6, str(readPhone_number), "staff_tableWidget")              
                     self.create_table_widget(rowPosition, 7, str(readEmail), "staff_tableWidget")
-                    self.create_table_widget(rowPosition, 8, str(position_dict[readPosition_ID]), "staff_tableWidget")
+                    self.create_table_widget(rowPosition, 8, str(readPosition_ID), "staff_tableWidget")
                     # Closing entry window
                     self.window.close()
                     # Updating data in program
@@ -2814,8 +2819,9 @@ class MainWindow(QtWidgets.QMainWindow):
                     # Closing connection
                     con.close()
                     # Adding new row information
+            
                     self.create_table_widget(rowPosition, 0, str(rowPosition+1), "subject_tableWidget")
-                    self.create_table_widget(rowPosition, 1, str(category_dict[readCategory_ID]), "subject_tableWidget")
+                    self.create_table_widget(rowPosition, 1, str(readCategory_ID), "subject_tableWidget")
                     self.create_table_widget(rowPosition, 2, str(readTitle), "subject_tableWidget") 
                     self.create_table_widget(rowPosition, 3, str(readDescription), "subject_tableWidget") 
                     self.create_table_widget(rowPosition, 4, str(readPrice), "subject_tableWidget")
@@ -2969,6 +2975,7 @@ class MainWindow(QtWidgets.QMainWindow):
             rowPosition = self.ui.staff_tableWidget.rowCount()
             self.ui.staff_tableWidget.insertRow(rowPosition)
             # Create widget
+
             self.create_table_widget(rowPosition, 0, str(STAFF.Staff_ID[x]), "staff_tableWidget")
             self.create_table_widget(rowPosition, 1, str(STAFF.Name[x]), "staff_tableWidget")
             self.create_table_widget(rowPosition, 2, str(STAFF.Last_Name[x]), "staff_tableWidget")
@@ -2977,7 +2984,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.create_table_widget(rowPosition, 5, str(STAFF.Address[x]), "staff_tableWidget")
             self.create_table_widget(rowPosition, 6, str(STAFF.Phone_Number[x]), "staff_tableWidget")
             self.create_table_widget(rowPosition, 7, str(STAFF.Email[x]), "staff_tableWidget")
-            self.create_table_widget(rowPosition, 8, str(STAFF.Position_ID[x]), "staff_tableWidget")
+            self.create_table_widget(rowPosition, 8, str(position_ID_dict[STAFF.Position_ID[x]]), "staff_tableWidget")
         
         self.ui.staff_lineEdit.textChanged.connect(self.findStaff)
         self.ui.staff_add_button.clicked.connect(lambda: self.addrow("Staff"))
