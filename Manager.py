@@ -2,6 +2,7 @@
 from imp import find_module
 from sys import platform
 from os import system
+from tokenize import group
 
 # Imoprting for data collecting
 from sqlalchemy import  create_engine
@@ -78,7 +79,7 @@ def GetData():
     global STUDENTS, GROUPS, S2G, POSITION, STAFF, INSTRUCTOR, AUDIENCE, CATEGORY, SUBJECT, LEARNING_TYPE, SCHEDULE
     STUDENTS, GROUPS, S2G, POSITION, STAFF, INSTRUCTOR, AUDIENCE, CATEGORY, SUBJECT, LEARNING_TYPE, SCHEDULE = RES_LIST
 
-    global student_dict, group_dict, position_dict, staff_dict, instructor_dict, audience_dict, category_dict, subject_dict, lType_dict
+    global student_dict, group_dict, position_dict, staff_dict, instructor_dict, audience_dict, category_dict, subject_dict, lType_dict,  lType_ID_dict, audience_ID_dict, staff_ID_dict, group_ID_dict, subject_ID_dict
     student_dict = dict()
     group_dict = dict()
     position_dict = dict()
@@ -88,6 +89,11 @@ def GetData():
     category_dict = dict()
     subject_dict = dict()
     lType_dict = dict()
+    lType_ID_dict = dict()
+    audience_ID_dict = dict()
+    staff_ID_dict = dict()
+    group_ID_dict = dict()
+    subject_ID_dict = dict()
 
     for x in range(len(STUDENTS)):
         student_dict[str(STUDENTS.Name[x]) + " " + str(STUDENTS.Last_Name[x])] = STUDENTS.Student_ID[x]
@@ -115,6 +121,25 @@ def GetData():
 
     for x in range(len(LEARNING_TYPE)):
         lType_dict[str(LEARNING_TYPE.Title[x])] = LEARNING_TYPE.Learning_Type_ID[x]
+
+######## New reverse Dicts
+
+    for x in range(len(LEARNING_TYPE)):
+        lType_ID_dict[LEARNING_TYPE.Learning_Type_ID[x]] = LEARNING_TYPE.Title[x]
+
+    for x in range(len(AUDIENCE)):
+        audience_ID_dict[AUDIENCE.Audience_ID[x]] = AUDIENCE.Title[x]
+
+    for x in range(len(STAFF)):
+        staff_ID_dict[STAFF.Staff_ID[x]] = STAFF.Name[x] + " " + STAFF.Last_Name[x]
+
+    for x in range(len(GROUPS)):
+        group_ID_dict[GROUPS.Group_ID[x]] = (GROUPS.Title[x])
+
+    for x in range(len(SUBJECT)):
+        subject_ID_dict[SUBJECT.Subject_ID[x]] = SUBJECT.Title[x]
+
+
 
 ### REGISTER WINDOW CLASS
 class Ui_Form(object):
@@ -861,7 +886,7 @@ class Ui_Instructor_Enter_Window(object):
         self.description_txt.setText(_translate("Instructor_Enter_Window", "Description"))
         self.instructor_enter_staff_id_label.setText(_translate("Instructor_Enter_Window", "Staff"))
         self.instructor_enter_teaching_object_txt.setText(_translate("Instructor_Enter_Window", "Teaching Object"))
-        for key, value in group_dict.items():
+        for key, value in staff_dict.items():
             self.instructor_enter_staff_id_combo_box.setItemText(value-1, _translate("Instructor_Enter_Window", key))
         self.pushButton.setText(_translate("Instructor_Enter_Window", "OK"))
 class Ui_Instructor_Replace_Window(object):
@@ -1057,7 +1082,7 @@ class Ui_Schedule_Enter_Window(object):
         self.verticalLayout_2.addWidget(self.schedule_group_enter_comboBox)
         self.schedule_instructor_enter_comboBox = QtWidgets.QComboBox(self.frame_4)
         self.schedule_instructor_enter_comboBox.setObjectName("schedule_instructor_enter_comboBox")
-        for i in range(len(instructor_dict)):
+        for i in range(len(staff_dict)):
             self.schedule_instructor_enter_comboBox.addItem("")
         self.verticalLayout_2.addWidget(self.schedule_instructor_enter_comboBox)
         self.schedule_subject_enter_comboBox = QtWidgets.QComboBox(self.frame_4)
@@ -1114,9 +1139,10 @@ class Ui_Schedule_Enter_Window(object):
         self.label_6.setText(_translate("Schedule_Enter_Window", "Start Date"))
         self.label_7.setText(_translate("Schedule_Enter_Window", "Finish Date"))
         self.label_8.setText(_translate("Schedule_Enter_Window", "Time Schedule"))
+
         for key,value in group_dict.items():
             self.schedule_group_enter_comboBox.setItemText(value-1, _translate("Schedule_Enter_Window", key))
-        for key,value in instructor_dict.items():
+        for key,value in staff_dict.items():
             self.schedule_instructor_enter_comboBox.setItemText(value-1, _translate("Schedule_Enter_Window", key))
         for key,value in subject_dict.items():
             self.schedule_subject_enter_comboBox.setItemText(value-1, _translate("Schedule_Enter_Window", key))
@@ -2542,14 +2568,15 @@ class MainWindow(QtWidgets.QMainWindow):
                     con = connect(host=Host, user=uName, passwd=Pass, db=DataBase)
                     myCursor = con.cursor()
                     # Transfer data to server
-                    myCursor.execute("INSERT INTO instructor(instructor_ID, staff_ID, description, teaching_object) VALUES({},{},'{}','{}')".format(rowPosition+1, instructor_dict[readStaff_ID], readDescription, readTeaching_object))
+                    myCursor.execute("INSERT INTO instructor(instructor_ID, staff_ID, description, teaching_object) VALUES({},{},'{}','{}')".format(rowPosition+1, staff_dict[readStaff_ID], readDescription, readTeaching_object))
                     # Confirming new changes in server
                     con.commit()
                     # Closing connection
                     con.close()
                     # Adding new row information
+                  
                     self.create_table_widget(rowPosition, 0, str(rowPosition+1), "instructor_tableWidget")
-                    self.create_table_widget(rowPosition, 1, str(instructor_dict[readStaff_ID]), "instructor_tableWidget")
+                    self.create_table_widget(rowPosition, 1, str(readStaff_ID), "instructor_tableWidget")
                     self.create_table_widget(rowPosition, 2, str(readDescription), "instructor_tableWidget") 
                     self.create_table_widget(rowPosition, 3, str(readTeaching_object), "instructor_tableWidget") 
 
@@ -2858,7 +2885,7 @@ class MainWindow(QtWidgets.QMainWindow):
                     msg.setWindowTitle("Invalid Syntax")
                     msg.exec_() 
                 else:
-                                #"schedule" : ["Schedule_ID", "Group_ID", "Instructor_ID", "Subject_ID", "Audience_ID", "Learning_Type_ID", "Start_Date", "Finish_Date", "Time_Schedule"]
+                   
 
                     # Adding new empty row
                     rowPosition = self.ui.schedule_tableWidget.rowCount()
@@ -2867,7 +2894,8 @@ class MainWindow(QtWidgets.QMainWindow):
                     con = connect(host=Host, user=uName, passwd=Pass, db=DataBase)
                     myCursor = con.cursor()
                     # Transfer data to server
-                    myCursor.execute("INSERT INTO schedule(schedule_ID, group_ID, instructor_ID, Subject_ID, audience_ID, learning_type_ID, start_date, finish_date, time_schedule) VALUES({},{},{},{},{},{},'{}','{}','{}')".format(rowPosition+1, group_dict[readGroup], instructor_dict[readInstructor], subject_dict[readSubject],  audience_dict[readAudience], lType_dict[readLearningtype], readStartdate, readFinishdate, readTimeschedule))
+                    
+                    myCursor.execute("INSERT INTO schedule(schedule_ID, group_ID, instructor_ID, Subject_ID, audience_ID, learning_type_ID, start_date, finish_date, time_schedule) VALUES({},{},{},{},{},{},'{}','{}','{}')".format(rowPosition+1, group_dict[readGroup], staff_dict[readInstructor], subject_dict[readSubject],  audience_dict[readAudience], lType_dict[readLearningtype], readStartdate, readFinishdate, readTimeschedule))
                     # Confirming new changes in server
                     con.commit()
                     # Closing connection
@@ -2899,6 +2927,7 @@ class MainWindow(QtWidgets.QMainWindow):
             rowPosition = self.ui.student_tableWidget.rowCount()
             self.ui.student_tableWidget.insertRow(rowPosition)
             # Create widget
+
             self.create_table_widget(rowPosition, 0, str(STUDENTS.Student_ID[x]), "student_tableWidget")
             self.create_table_widget(rowPosition, 1, str(STUDENTS.Name[x]), "student_tableWidget")
             self.create_table_widget(rowPosition, 2, str(STUDENTS.Last_Name[x]), "student_tableWidget")
@@ -2958,8 +2987,9 @@ class MainWindow(QtWidgets.QMainWindow):
             rowPosition = self.ui.instructor_tableWidget.rowCount()
             self.ui.instructor_tableWidget.insertRow(rowPosition)
             # Create widget
+
             self.create_table_widget(rowPosition, 0, str(INSTRUCTOR.Instructor_ID[x]), "instructor_tableWidget")
-            self.create_table_widget(rowPosition, 1, str(INSTRUCTOR.Staff_ID[x]), "instructor_tableWidget")
+            self.create_table_widget(rowPosition, 1, str(staff_ID_dict[INSTRUCTOR.Staff_ID[x]]), "instructor_tableWidget")
             self.create_table_widget(rowPosition, 2, str(INSTRUCTOR.Description[x]), "instructor_tableWidget")
             self.create_table_widget(rowPosition, 3, str(INSTRUCTOR.Teaching_Object[x]), "instructor_tableWidget")
         
@@ -3008,7 +3038,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.ui.subject_tableWidget.insertRow(rowPosition)
             # Create widget
             self.create_table_widget(rowPosition, 0, str(SUBJECT.Subject_ID[x]), "subject_tableWidget")
-            self.create_table_widget(rowPosition, 1, str(SUBJECT.Category_ID[x]), "subject_tableWidget")
+            self.create_table_widget(rowPosition, 1, str(list(category_dict)[x]), "subject_tableWidget")
             self.create_table_widget(rowPosition, 2, str(SUBJECT.Title[x]), "subject_tableWidget")
             self.create_table_widget(rowPosition, 3, str(SUBJECT.Description[x]), "subject_tableWidget")
             self.create_table_widget(rowPosition, 4, str(SUBJECT.Price[x]), "subject_tableWidget")
@@ -3026,14 +3056,15 @@ class MainWindow(QtWidgets.QMainWindow):
             self.ui.schedule_tableWidget.insertRow(rowPosition)
             # Create widget
             self.create_table_widget(rowPosition, 0, str(SCHEDULE.Schedule_ID[x]), "schedule_tableWidget")
-            self.create_table_widget(rowPosition, 1, str(SCHEDULE.Group_ID[x]), "schedule_tableWidget")
-            self.create_table_widget(rowPosition, 2, str(SCHEDULE.Instructor_ID[x]), "schedule_tableWidget")
-            self.create_table_widget(rowPosition, 3, str(SCHEDULE.Subject_ID[x]), "schedule_tableWidget")
-            self.create_table_widget(rowPosition, 4, str(SCHEDULE.Audience_ID[x]), "schedule_tableWidget")
-            self.create_table_widget(rowPosition, 5, str(SCHEDULE.Learning_Type_ID[x]), "schedule_tableWidget")
+            self.create_table_widget(rowPosition, 1, str(group_ID_dict[SCHEDULE.Group_ID[x]]), "schedule_tableWidget")
+            self.create_table_widget(rowPosition, 2, str(staff_ID_dict[INSTRUCTOR.Staff_ID[x]]), "schedule_tableWidget")
+            self.create_table_widget(rowPosition, 3, str(subject_ID_dict[SCHEDULE.Subject_ID[x]]), "schedule_tableWidget")
+            self.create_table_widget(rowPosition, 4, str(audience_ID_dict[SCHEDULE.Audience_ID[x]]), "schedule_tableWidget")
+            self.create_table_widget(rowPosition, 5, str(lType_ID_dict[SCHEDULE.Learning_Type_ID[x]]), "schedule_tableWidget")
             self.create_table_widget(rowPosition, 6, str(SCHEDULE.Start_Date[x]), "schedule_tableWidget")
             self.create_table_widget(rowPosition, 7, str(SCHEDULE.Finish_Date[x]), "schedule_tableWidget")
             self.create_table_widget(rowPosition, 8, str(SCHEDULE.Time_Schedule[x]), "schedule_tableWidget")
+            
 
         self.ui.schedule_lineEdit.textChanged.connect(self.findSchedule)
         self.ui.schedule_add_button.clicked.connect(lambda: self.addrow("Schedule"))
