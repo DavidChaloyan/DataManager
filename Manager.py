@@ -3,6 +3,7 @@ from imp import find_module
 from sys import platform
 from os import system
 from tokenize import group
+from nbformat import read
 
 # Imoprting for data collecting
 from sqlalchemy import  create_engine
@@ -79,7 +80,8 @@ def GetData():
     global STUDENTS, GROUPS, S2G, POSITION, STAFF, INSTRUCTOR, AUDIENCE, CATEGORY, SUBJECT, LEARNING_TYPE, SCHEDULE
     STUDENTS, GROUPS, S2G, POSITION, STAFF, INSTRUCTOR, AUDIENCE, CATEGORY, SUBJECT, LEARNING_TYPE, SCHEDULE = RES_LIST
 
-    global student_dict, group_dict, position_dict, staff_dict, instructor_dict, audience_dict, category_dict, subject_dict, lType_dict,  lType_ID_dict, audience_ID_dict, staff_ID_dict, group_ID_dict, subject_ID_dict, category_ID_dict, position_ID_dict
+    global student_dict, group_dict, position_dict, staff_dict, instructor_dict, audience_dict, category_dict, subject_dict, lType_dict
+    global lType_ID_dict, audience_ID_dict, staff_ID_dict, group_ID_dict, subject_ID_dict, category_ID_dict, position_ID_dict
     student_dict = dict()
     group_dict = dict()
     position_dict = dict()
@@ -146,9 +148,6 @@ def GetData():
 
     for x in range(len(POSITION)):
         position_ID_dict[POSITION.Position_ID[x]] = POSITION.Title[x]
-
-
-
 
 ### REGISTER WINDOW CLASS
 class Ui_Form(object):
@@ -383,7 +382,6 @@ class Ui_Form(object):
         self.password.setPlaceholderText(_translate("Form", "Password"))
         self.label.setText(_translate("Form", "Powered by ColoAI."))
         
-
 ### ENTER/REPLACE WINDOW CLASSES
 class Ui_Audience_Enter_Window(object):
     def setupUi(self, Audience_Enter_Window):
@@ -1328,7 +1326,7 @@ class Ui_Schedule_Replace_Window(object):
         self.label_9.setText(_translate("Schedule_Replace_Window", "Schedule ID"))
         for key,value in group_dict.items():
             self.schedule_group_replace_comboBox.setItemText(value-1, _translate("Schedule_Enter_Window", key))
-        for key,value in instructor_dict.items():
+        for key,value in staff_dict.items():
             self.schedule_instructor_replace_comboBox.setItemText(value-1, _translate("Schedule_Enter_Window", key))
         for key,value in subject_dict.items():
             self.schedule_subject_replace_comboBox.setItemText(value-1, _translate("Schedule_Enter_Window", key))
@@ -3072,7 +3070,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.create_table_widget(rowPosition, 1, str(group_ID_dict[SCHEDULE.Group_ID[x]]), "schedule_tableWidget")
             self.create_table_widget(rowPosition, 2, str(staff_ID_dict[SCHEDULE.Instructor_ID[x]]), "schedule_tableWidget")
             self.create_table_widget(rowPosition, 3, str(subject_ID_dict[SCHEDULE.Subject_ID[x]]), "schedule_tableWidget")
-            self.create_table_widget(rowPosition, 4, str(audience_ID_dict[SCHEDULE.Audience_ID[x]]), "schedule_tableWidget")
+            self.create_table_widget(rowPosition, 4, str(SCHEDULE.Audience_ID[x]), "schedule_tableWidget")
             self.create_table_widget(rowPosition, 5, str(lType_ID_dict[SCHEDULE.Learning_Type_ID[x]]), "schedule_tableWidget")
             self.create_table_widget(rowPosition, 6, str(SCHEDULE.Start_Date[x]), "schedule_tableWidget")
             self.create_table_widget(rowPosition, 7, str(SCHEDULE.Finish_Date[x]), "schedule_tableWidget")
@@ -3505,13 +3503,81 @@ class MainWindow(QtWidgets.QMainWindow):
             # Navigate  ok button
             self.w.pushButton.clicked.connect(lambda: OkClicked())
 
-        #########################################anpatrast
         elif name == "Audience":
             # Calling replace window
             self.window = QtWidgets.QMainWindow()
             self.w = Ui_Audience_Replace_Window()
             self.w.setupUi(self.window)
             self.window.show()
+
+            def OkClicked():
+                #Dictionary for key(nameerror):value(True or false)
+                errorDict = dict()
+                # Reading data from line and doing validation
+                readTitle = self.w.audience_title_replace_lineEdit.text()
+                if readTitle:
+                    errorDict["TitleError"] = True
+                else:
+                    errorDict["TitleError"] = False
+                  
+                readSeatCount = self.w.audience_seatCount_replace_lineEdit.text()
+                if readSeatCount.isnumeric and "." not in readSeatCount:
+                    errorDict["SeatCountError"] = True
+                else:
+                    errorDict["SeatCountError"] = False
+
+                readCompCount = self.w.audience_camputer_count_replace_lineEdit.text()
+                if readCompCount.isnumeric and "." not in readCompCount:
+                    errorDict["ComputerCountError"] = True
+                else:
+                    errorDict["ComputerCountError"] = False
+
+                readAudience_ID = self.w.audience_ID_replace_comboBox.currentText()
+                #List for show errors
+                showError = []
+                #through this cikle we add errors name into our list(showError)
+                for item in errorDict:
+                    if errorDict[item] == True:
+                        pass
+                    else:
+                        showError.append(item)
+
+                #if our showError list has one or more items` we can know that we have error and we can use MessageBox
+                #else we can know that everything is fine and we can add our data
+                if len(showError) >= 1:
+                    msg = QMessageBox()
+                    msg.setIcon(QMessageBox.Critical)
+                    msg.setText(str(showError))
+                    msg.setWindowTitle("Invalid Syntax")
+                    msg.exec_()
+                else:
+                    # Connecting to server
+                    con = connect(host=Host, user=uName, passwd=Pass, db=DataBase)
+                    myCursor = con.cursor()
+                    # Transfer data to server
+                    myCursor.execute(f"UPDATE audience SET  title='{readTitle}', seat_count='{readSeatCount}',"
+                                     f" computer_count='{readCompCount}' WHERE audience_ID={readAudience_ID}")
+                    # Confirming new changes in server
+                    con.commit()
+                    # Closing connection
+                    con.close()
+                    self.window.close()
+                    # Finding position of changed data
+                    for i in range(len(audience_dict)):
+                        if AUDIENCE.Audience_ID[i] == int(readAudience_ID):
+                            rowPosition = i
+                            break
+                        
+                    # Updating data in program
+                    self.create_table_widget(rowPosition, 0, str(readAudience_ID), "audience_tableWidget")
+                    self.create_table_widget(rowPosition, 1, str(readTitle), "audience_tableWidget")
+                    self.create_table_widget(rowPosition, 2, str(readSeatCount), "audience_tableWidget") 
+                    self.create_table_widget(rowPosition, 3, str(readCompCount), "audience_tableWidget")
+                    #self.window.close()
+                    GetData()
+
+            #Navigate  ok button
+            self.w.audience_replace_pushButton.clicked.connect(lambda: OkClicked())
 
         elif name == "Category":
             # Calling replace window
@@ -3520,6 +3586,53 @@ class MainWindow(QtWidgets.QMainWindow):
             self.w.setupUi(self.window)
             self.window.show()
 
+            def OkClicked():
+                #Dictionary for key(nameerror):value(True or false)
+                errorDict = dict()
+                # Reading data from line and doing validation
+                readSubjectCategory = self.w.category_subjectCategory_replace_lineEdit.text()
+                if readSubjectCategory.isalpha and readSubjectCategory:
+                    errorDict["SubjectCategoryError"] = True
+                else:
+                    errorDict["SubjectCategoryError"] = False
+
+                readCategory_ID = self.w.category_ID_replace_comboBox.currentText()
+                #List for show errors
+                showError = []
+                #through this cikle we add errors name into our list(showError)
+                for item in errorDict:
+                    if errorDict[item] == True:
+                        pass
+                    else:
+                        showError.append(item)
+
+                #if our showError list has one or more items` we can know that we have error and we can use MessageBox
+                #else we can know that everything is fine and we can add our data
+                if len(showError) >= 1:
+                    msg = QMessageBox()
+                    msg.setIcon(QMessageBox.Critical)
+                    msg.setText(str(showError))
+                    msg.setWindowTitle("Invalid Syntax")
+                    msg.exec_()
+                else:
+                    # Connecting to server
+                    con = connect(host=Host, user=uName, passwd=Pass, db=DataBase)
+                    myCursor = con.cursor()
+                    # Transfer data to server
+                    myCursor.execute(f"UPDATE category SET  subject_category='{readSubjectCategory}' WHERE category_ID={readCategory_ID}")
+                    # Confirming new changes in server
+                    con.commit()
+                    # Closing connection
+                    con.close()
+                    self.window.close()                        
+                    # Updating data in program
+                    self.create_table_widget(int(readCategory_ID) - 1, 1, str(readSubjectCategory), "category_tableWidget")
+                    #self.window.close()
+                    GetData()
+
+            #Navigate  ok button
+            self.w.category_replace_pushButton.clicked.connect(lambda: OkClicked())
+            
         elif name == "Subject":
             # Calling replace window
             self.window = QtWidgets.QMainWindow()
@@ -3527,12 +3640,158 @@ class MainWindow(QtWidgets.QMainWindow):
             self.w.setupUi(self.window)
             self.window.show()
 
+            def OkClicked():
+                #Dictionary for key(nameerror):value(True or false)
+                errorDict = dict()
+                # Reading data from line and doing validation
+                readCategoryTitle = self.w.subjects_rename_category_id_combo_box.currentText()
+
+                readTitle = self.w.subject_rename_title_line.text()
+                if readTitle:
+                    errorDict["TitleError"] = True
+                else:
+                    errorDict["TitleError"] = False
+                
+                readDescription = self.w.subjects_rename_description_line.text()
+                if readDescription:
+                    errorDict["DescriptionError"] = True
+                else:
+                    errorDict["DescriptionError"] = False
+
+                readPrice = self.w.subject_rename_price_line.text()
+                if validation.isValidPrice(readPrice):
+                    errorDict["PriceError"] = True
+                else:
+                    errorDict["PriceError"] = False
+
+                readSubject_ID = self.w.subject_rename_id_combo_box.currentText()
+                #List for show errors
+                showError = []
+                #through this cikle we add errors name into our list(showError)
+                for item in errorDict:
+                    if errorDict[item] == True:
+                        pass
+                    else:
+                        showError.append(item)
+
+                #if our showError list has one or more items` we can know that we have error and we can use MessageBox
+                #else we can know that everything is fine and we can add our data
+                if len(showError) >= 1:
+                    msg = QMessageBox()
+                    msg.setIcon(QMessageBox.Critical)
+                    msg.setText(str(showError))
+                    msg.setWindowTitle("Invalid Syntax")
+                    msg.exec_()
+                else:
+                    # Connecting to server
+                    con = connect(host=Host, user=uName, passwd=Pass, db=DataBase)
+                    myCursor = con.cursor()
+                    # Transfer data to server
+                    myCursor.execute(f"UPDATE subject SET  category_ID={category_dict[readCategoryTitle]},"
+                                     f" title='{readTitle}', description='{readDescription}',"
+                                     f" price={readPrice} WHERE subject_ID={readSubject_ID}")
+                    # Confirming new changes in server
+                    con.commit()
+                    # Closing connection
+                    con.close()
+                    self.window.close()
+                        
+                    # Updating data in program
+                    self.create_table_widget(int(readSubject_ID) - 1, 1, str(readCategoryTitle), "subject_tableWidget")
+                    self.create_table_widget(int(readSubject_ID) - 1, 2, str(readTitle), "subject_tableWidget")
+                    self.create_table_widget(int(readSubject_ID) - 1, 3, str(readDescription), "subject_tableWidget")
+                    self.create_table_widget(int(readSubject_ID) - 1, 4, str(readPrice), "subject_tableWidget")
+                    #self.window.close()
+                    GetData()
+
+            #Navigate  ok button
+            self.w.pushButton.clicked.connect(lambda: OkClicked())
+
         elif name == "Schedule":
             # Calling replace window
             self.window = QtWidgets.QMainWindow()
             self.w = Ui_Schedule_Replace_Window()
             self.w.setupUi(self.window)
             self.window.show()
+
+            def OkClicked():
+                #Dictionary for key(nameerror):value(True or false)
+                errorDict = dict()
+                # Reading data from line and doing validation
+                readGroupTitle = self.w.schedule_group_replace_comboBox.currentText()
+                readInstructorTitle = self.w.schedule_instructor_replace_comboBox.currentText()
+                readSubjectTitle = self.w.schedule_subject_replace_comboBox.currentText()
+                readAudienceTitle = self.w.schedule_audience_replace_comboBox.currentText()
+                readLType = self.w.schedule_learningtype_replace_comboBox.currentText()
+
+                readStartDate = self.w.schedule_startdate_replace_lineEdit.text()
+                if validation.isValidBirthDate(readStartDate):
+                    errorDict["StartDateError"] = True
+                else:
+                    errorDict["StartDateError"] = False
+                
+                readFinishDate = self.w.schedule_finishdate_replace_lineEdit.text()
+                if validation.isValidBirthDate(readFinishDate):
+                    errorDict["FinishDateError"] = True
+                else:
+                    errorDict["FinishDateError"] = False
+
+                readTimeSchdule = self.w.schedule_timeschedule_replace_lineEdit.text()
+                if readTimeSchdule:
+                    errorDict["TimeScheduleError"] = True
+                else:
+                    errorDict["TimeScheduleError"] = False
+
+                readSchedule_ID = self.w.schedule_learningtype_replace_comboBox_2.currentText()
+                #List for show errors
+                showError = []
+                #through this cikle we add errors name into our list(showError)
+                for item in errorDict:
+                    if errorDict[item] == True:
+                        pass
+                    else:
+                        showError.append(item)
+
+                #if our showError list has one or more items` we can know that we have error and we can use MessageBox
+                #else we can know that everything is fine and we can add our data
+                if len(showError) >= 1:
+                    msg = QMessageBox()
+                    msg.setIcon(QMessageBox.Critical)
+                    msg.setText(str(showError))
+                    msg.setWindowTitle("Invalid Syntax")
+                    msg.exec_()
+                else:
+                    # Connecting to server
+                    con = connect(host=Host, user=uName, passwd=Pass, db=DataBase)
+                    myCursor = con.cursor()
+                    # Transfer data to server
+                    myCursor.execute(f"UPDATE schedule SET group_ID={group_dict[readGroupTitle]},"
+                                     f" instructor_ID={staff_dict[readInstructorTitle]},"
+                                     f" subject_ID={subject_dict[readSubjectTitle]},"
+                                     f" audience_ID={audience_dict[readAudienceTitle]},"
+                                     f" learning_type_ID={lType_dict[readLType]},"
+                                     f" start_date='{readStartDate}', finish_date='{readFinishDate}',"
+                                     f" time_schedule='{readTimeSchdule}' WHERE schedule_ID={readSchedule_ID}")
+                    # Confirming new changes in server
+                    con.commit()
+                    # Closing connection
+                    con.close()
+                    self.window.close()
+                        
+                    # Updating data in program
+                    self.create_table_widget(int(readSchedule_ID) - 1, 1, str(readGroupTitle), "schedule_tableWidget")
+                    self.create_table_widget(int(readSchedule_ID) - 1, 2, str(readInstructorTitle), "schedule_tableWidget")
+                    self.create_table_widget(int(readSchedule_ID) - 1, 3, str(readSubjectTitle), "schedule_tableWidget")
+                    self.create_table_widget(int(readSchedule_ID) - 1, 4, str(audience_dict[readAudienceTitle]), "schedule_tableWidget")
+                    self.create_table_widget(int(readSchedule_ID) - 1, 5, str(readLType), "schedule_tableWidget")
+                    self.create_table_widget(int(readSchedule_ID) - 1, 6, str(readStartDate), "schedule_tableWidget")
+                    self.create_table_widget(int(readSchedule_ID) - 1, 7, str(readFinishDate), "schedule_tableWidget")
+                    self.create_table_widget(int(readSchedule_ID) - 1, 8, str(readTimeSchdule), "schedule_tableWidget")
+                    #self.window.close()
+                    GetData()
+
+            #Navigate  ok button
+            self.w.Schedule_Replace_pushButton.clicked.connect(lambda: OkClicked())
 
 
 #####################################################
