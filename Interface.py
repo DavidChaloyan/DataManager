@@ -1,4 +1,3 @@
-from tkinter.ttk import Scrollbar
 from PySide2 import QtCore, QtGui, QtWidgets
 
 class Ui_MainWindow(object):
