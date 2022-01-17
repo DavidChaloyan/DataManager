@@ -56,19 +56,25 @@ def checkIfModulsAreExisting():
 ### FUNCTION FOR GETTING DATA FROM SQL SERVER
 def GetData():
     TABLES = {
-        "student": ["Student_ID", "Name", "Last_Name", "Patronymic", "Birth_Date", "Address", "Phone_Number", "Email",
-                    "Passport_ID"],
+        "student": ["Student_ID", "Name", "Last_Name",
+                    "Patronymic", "Birth_Date", "Address",
+                    "Phone_Number", "Email", "Passport_ID"],
         "groupp": ["Group_ID", "Title"],
         "student_to_group": ["Date", "Student_ID", "Group_ID"],
         "position": ["Position_ID", "Title", "Salary"],
-        "staff": ["Staff_ID", "Name", "Last_Name", "Patronymic", "Education", "Address", "Phone_Number", "Email",
-                  "Position_ID"],
-        "instructor": ["Instructor_ID", "Staff_ID", "Description", "Teaching_Object"],
-        "audience": ["Audience_ID", "Title", "Seat_Count", "Computer_Count"],
+        "staff": ["Staff_ID", "Name", "Last_Name",
+                  "Patronymic", "Education", "Address",
+                  "Phone_Number", "Email", "Position_ID"],
+        "instructor": ["Instructor_ID", "Staff_ID",
+                       "Description", "Teaching_Object"],
+        "audience": ["Audience_ID", "Title",
+                     "Seat_Count", "Computer_Count"],
         "category": ["Category_ID", "Subject_Category"],
-        "subject": ["Subject_ID", "Category_ID", "Title", "Description", "Price"],
+        "subject": ["Subject_ID", "Category_ID",
+                    "Title", "Description", "Price"],
         "learningtype": ["Learning_Type_ID", "Title"],
-        "schedule": ["Schedule_ID", "Group_ID", "Instructor_ID", "Subject_ID", "Audience_ID", "Learning_Type_ID",
+        "schedule": ["Schedule_ID", "Group_ID", "Instructor_ID",
+                     "Subject_ID", "Audience_ID", "Learning_Type_ID",
                      "Start_Date", "Finish_Date", "Time_Schedule"]
     }
     connection = create_engine("mysql+pymysql://"+uName+":"+Pass+"@"+Host+"/"+DataBase)
@@ -153,10 +159,10 @@ def GetData():
 class Ui_Form(object):
     def file2(self):
         global uName, Pass, Host, DataBase
-        uName = 'admin_pytont1'#self.user_name.text()
-        Pass = 'XTZSbPs4Sq'#self.password.text()
-        Host = '5.63.161.115'#self.ip_host.text()
-        DataBase = 'admin_pytont1'#self.data_base.text()
+        uName = self.user_name.text()
+        Pass = self.password.text()
+        Host = self.ip_host.text()
+        DataBase = self.data_base.text()
         self.ui = MainWindow()
 
     def setupUi(self, Form):
