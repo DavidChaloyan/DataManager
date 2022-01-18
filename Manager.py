@@ -156,14 +156,32 @@ def GetData():
 
 ### REGISTER WINDOW CLASS
 class Ui_Form(object):
-    def file2(self):
+    def file2(self, Form):
         global uName, Pass, Host, DataBase
         uName = self.user_name.text()
         Pass = self.password.text()
         Host = self.ip_host.text()
         DataBase = self.data_base.text()
-        self.ui = MainWindow()
+        
+        #### ERROR WINDOW ####
+        # If the input is incorrect, it asks to continue or exit the application #
+        try:
+            test = connect(host=Host, user=uName, passwd=Pass, db=DataBase)
+            Form.close()
+            test.close()
+            self.test() 
+        except:
+            msg = QMessageBox.question(None, "Invalid Syntax","The login information is incorrect.\n \tRepeat?",
+                                            QMessageBox.Yes | QMessageBox.Close)
+            if msg == QMessageBox.Yes:
+                pass
+            else: 
+                Form.close()
 
+    def test(self):
+        ui = MainWindow()
+        ui.show() 
+        
     def setupUi(self, Form):
         Form.setObjectName("Form")
         Form.resize(475, 640)
@@ -199,8 +217,7 @@ class Ui_Form(object):
         self.pushButton_2.setSizePolicy(sizePolicy)
         self.pushButton_2.setMinimumSize(QtCore.QSize(100, 100))
         self.pushButton_2.setMaximumSize(QtCore.QSize(100, 16777215))
-        self.pushButton_2.setStyleSheet("background-color: #3E3D3E;\n"
-"")
+        self.pushButton_2.setStyleSheet("background-color: #3E3D3E;")
         self.pushButton_2.setText("")
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("icons8-logo-48.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -319,8 +336,6 @@ class Ui_Form(object):
         self.sign_in.setDefault(False)
         self.sign_in.setFlat(False)
         self.sign_in.setObjectName("sign_in")
-        self.sign_in.clicked.connect(self.file2)
-        self.sign_in.clicked.connect(Form.close)
         self.formLayout_2.setWidget(10, QtWidgets.QFormLayout.SpanningRole, self.sign_in)
         self.ip_host = QtWidgets.QLineEdit(self.widget)
         self.ip_host.setMinimumSize(QtCore.QSize(256, 60))
@@ -343,6 +358,7 @@ class Ui_Form(object):
         self.formLayout_2.setWidget(3, QtWidgets.QFormLayout.FieldRole, self.data_base)
         self.data_base.setStyleSheet("background-color: #A4A4A4")
         self.password = QtWidgets.QLineEdit(self.widget)
+        self.password.setEchoMode(QtWidgets.QLineEdit.Password)
         self.password.setMinimumSize(QtCore.QSize(256, 60))
         font = QtGui.QFont()
         font.setPointSize(20)
@@ -377,6 +393,9 @@ class Ui_Form(object):
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
+        
+        self.sign_in.clicked.connect(lambda: self.file2(Form))
+
 
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
@@ -3803,7 +3822,6 @@ class MainWindow(QtWidgets.QMainWindow):
 ##                 EXECUTE APP                     ##
 #####################################################
 if __name__ == "__main__":
-
     checkIfModulsAreExisting()
     app = QtWidgets.QApplication(sys.argv)
     Form = QtWidgets.QWidget()
