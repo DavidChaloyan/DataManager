@@ -2,8 +2,7 @@
 from imp import find_module
 from sys import platform
 from os import system
-from tokenize import group
-from nbformat import read
+
 
 # Imoprting for data collecting
 from sqlalchemy import  create_engine
