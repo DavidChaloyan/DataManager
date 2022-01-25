@@ -95,6 +95,7 @@ Permissions of this strong copyleft license are conditioned on making available 
 
 <h2 align="left">5. Contact</h2>
 
+* Our Mail: [@coloartint@gmail.com](coloartint@gmail.com)
 * Our  WebSite: [@https://coloai.mystrikingly.com/](https://coloai.mystrikingly.com/)
 * Our FaceBook: [@https://www.facebook.com/BitingArtInt/](https://www.facebook.com/BitingArtInt/)
 
