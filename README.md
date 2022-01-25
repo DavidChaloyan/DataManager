@@ -25,6 +25,8 @@
     </li>
     <li><a href="#license">License</a></li>
     <li><a href="#authors">Authors</a></li>
+    <li><a href="#contact">Contact</a></li>
+
   </ol>
 </details>
 
@@ -65,8 +67,6 @@ Permissions of this strong copyleft license are conditioned on making available 
 
 * Gmail: [@kar.hakobian.00@gmail.com](kar.hakobian.00@gmail.com)
 
-* LinkedIN: [@kar.hakobian.00@gmail.com](kar.hakobian.00@gmail.com)
-
 
 <h4 align="left">Ashot Nikoghosyan</h4>
 
@@ -74,7 +74,7 @@ Permissions of this strong copyleft license are conditioned on making available 
 
 * Gmail: [@ashot.nikogosyan2000@gmail.com](ashot.nikogosyan2000@gmail.com)
 
-* LinkedIN: [@kar.hakobian.00@gmail.com](kar.hakobian.00@gmail.com)
+* LinkedIN: [@https://www.linkedin.com/mwlite/in/ashot-nikoghosyan-5a149321b](https://www.linkedin.com/mwlite/in/ashot-nikoghosyan-5a149321b)
 
 <h4 align="left">Sergey Vardanyan</h4>
 
@@ -92,5 +92,10 @@ Permissions of this strong copyleft license are conditioned on making available 
 
 * LinkedIN: [@https://www.linkedin.com/in/david-chaloyan-96361022a](https://www.linkedin.com/in/david-chaloyan-96361022a)
 
-<p align="right">(<a href="#top">back to top</a>)</p>
 
+<h2 align="left">5. Contact</h2>
+
+* Our  WebSite: [@https://coloai.mystrikingly.com/](https://coloai.mystrikingly.com/)
+* Our FaceBook: [@https://www.facebook.com/BitingArtInt/](https://www.facebook.com/BitingArtInt/)
+
+<p align="right">(<a href="#top">back to top</a>)</p>
