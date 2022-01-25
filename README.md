@@ -74,7 +74,7 @@ Permissions of this strong copyleft license are conditioned on making available 
 
 * Gmail: [@ashot.nikogosyan2000@gmail.com](ashot.nikogosyan2000@gmail.com)
 
-* LinkedIN: [@kar.hakobian.00@gmail.com](kar.hakobian.00@gmail.com)
+* LinkedIN: [@https://www.linkedin.com/mwlite/in/ashot-nikoghosyan-5a149321b](https://www.linkedin.com/mwlite/in/ashot-nikoghosyan-5a149321b)
 
 <h4 align="left">Sergey Vardanyan</h4>
 
