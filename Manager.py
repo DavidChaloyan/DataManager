@@ -1,7 +1,5 @@
 # Importing for checking existance of moduls
-from email.headerregistry import Group
 from imp import find_module
-from re import I
 from sys import platform
 from os import system
 
