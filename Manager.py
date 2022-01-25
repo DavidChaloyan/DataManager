@@ -1,5 +1,7 @@
 # Importing for checking existance of moduls
+from email.headerregistry import Group
 from imp import find_module
+from re import I
 from sys import platform
 from os import system
 
@@ -16,6 +18,7 @@ import icons_rc
 from PySide2 import *
 from PySide2.QtCore import QPropertyAnimation
 from PySide2.QtWidgets import QPushButton, QSizeGrip, QTableWidgetItem, QMessageBox
+from PySide2.QtGui import QStandardItemModel, QStandardItem, QFont
 from qt_material import *
 
 # Importing for doing validation of changed/added data
@@ -580,16 +583,25 @@ class Ui_Audience_Replace_Window(object):
         self.retranslateUi(Audience_Replace_Window)
         QtCore.QMetaObject.connectSlotsByName(Audience_Replace_Window)
 
+    def updateCombo(self, index):
+        self.audience_title_replace_lineEdit.setText(str(list(AUDIENCE.Title)[index]))
+        self.audience_seatCount_replace_lineEdit.setText(str(list(AUDIENCE.Seat_Count)[index]))
+        self.audience_camputer_count_replace_lineEdit.setText(str(list(AUDIENCE.Computer_Count)[index]))
+
     def retranslateUi(self, Audience_Replace_Window):
         _translate = QtCore.QCoreApplication.translate
-        Audience_Replace_Window.setWindowTitle(_translate("Audience_Replace_Window", "Replace"))
+        Audience_Replace_Window.setWindowTitle(_translate("Audience_Replace_Window", "Update"))
         self.label.setText(_translate("Audience_Replace_Window", "Title"))
         self.label_2.setText(_translate("Audience_Replace_Window", "Seat Count"))
         self.label_3.setText(_translate("Audience_Replace_Window", "Camputer Count"))
         self.label_4.setText(_translate("Audience_Replace_Window", "ID"))
+        self.audience_title_replace_lineEdit.setText(str(list(AUDIENCE.Title)[0]))
+        self.audience_seatCount_replace_lineEdit.setText(str(list(AUDIENCE.Seat_Count)[0]))
+        self.audience_camputer_count_replace_lineEdit.setText(str(list(AUDIENCE.Computer_Count)[0]))
         for value in audience_dict.values():
             self.audience_ID_replace_comboBox.setItemText(list(audience_dict.values()).index(value), _translate("Audience_Replace_Window", str(value)))
         self.audience_replace_pushButton.setText(_translate("Audience_Replace_Window", "OK"))
+        self.audience_ID_replace_comboBox.currentIndexChanged.connect(self.updateCombo)
 class Ui_Category_Enter_Window(object):
     def setupUi(self, Category_Enter_Window):
         Category_Enter_Window.setObjectName("Category_Enter_Window")
@@ -713,14 +725,19 @@ class Ui_Category_Replace_Window(object):
         self.retranslateUi(Category_Replace_Window)
         QtCore.QMetaObject.connectSlotsByName(Category_Replace_Window)
 
+    def updateCombo(self, index):
+        self.category_subjectCategory_replace_lineEdit.setText(str(list(CATEGORY.Subject_Category)[index]))
+
     def retranslateUi(self, Category_Replace_Window):
         _translate = QtCore.QCoreApplication.translate
-        Category_Replace_Window.setWindowTitle(_translate("Category_Replace_Window", "Replace"))
+        Category_Replace_Window.setWindowTitle(_translate("Category_Replace_Window", "Update"))
         self.label.setText(_translate("Category_Replace_Window", "Subject Category"))
         self.label_2.setText(_translate("Category_Replace_Window", "ID"))
+        self.category_subjectCategory_replace_lineEdit.setText(str(list(CATEGORY.Subject_Category)[0]))
         for i in range(len(category_dict)):
             self.category_ID_replace_comboBox.setItemText(i, _translate("Category_Replace_Window", str(i+1)))
         self.category_replace_pushButton.setText(_translate("Category_Replace_Window", "OK"))
+        self.category_ID_replace_comboBox.currentIndexChanged.connect(self.updateCombo)
 class Ui_Group_Enter_Window(object):
     def setupUi(self, Group_Enter_Window):
         Group_Enter_Window.setObjectName("Group_Enter_Window")
@@ -831,14 +848,19 @@ class Ui_Group_Replace_Window(object):
         self.retranslateUi(Group_Replace_Window)
         QtCore.QMetaObject.connectSlotsByName(Group_Replace_Window)
 
+    def updateCombo(self, index):
+        self.group_rename_title_line.setText(str(list(GROUPS.Title)[index]))
+
     def retranslateUi(self, Group_Replace_Window):
         _translate = QtCore.QCoreApplication.translate
-        Group_Replace_Window.setWindowTitle(_translate("Group_Replace_Window", "Replace"))
+        Group_Replace_Window.setWindowTitle(_translate("Group_Replace_Window", "Update"))
         self.group_rename_title_txt.setText(_translate("Group_Replace_Window", "Title"))
         self.group_rename_id_txt.setText(_translate("Group_Replace_Window", "ID"))
+        self.group_rename_title_line.setText(str(list(GROUPS.Title)[0]))
         for i in range(len(group_dict)):
             self.group_rename_id_combo_box.setItemText(i, _translate("Group_Replace_Window", str(i+1)))
         self.pushButton.setText(_translate("Group_Replace_Window", "OK"))
+        self.group_rename_id_combo_box.currentIndexChanged.connect(self.updateCombo)
 class Ui_Instructor_Enter_Window(object):
     def setupUi(self, Instructor_Enter_Window):
         Instructor_Enter_Window.setObjectName("Instructor_Enter_Window")
@@ -1006,18 +1028,26 @@ class Ui_Instructor_Replace_Window(object):
         self.retranslateUi(Instructor_Replace_Window)
         QtCore.QMetaObject.connectSlotsByName(Instructor_Replace_Window)
 
+    def updateCombo(self, index):
+        self.instructor_rename_staff_id_combo_box.setCurrentIndex(index)
+        self.instructor_rename_description_line.setText(str(INSTRUCTOR.Description[index]))
+        self.instructor_rename_teaching_object_line.setText(str(INSTRUCTOR.Teaching_Object[index]))
+
     def retranslateUi(self, Instructor_Replace_Window):
         _translate = QtCore.QCoreApplication.translate
-        Instructor_Replace_Window.setWindowTitle(_translate("Instructor_Replace_Window", "Replace"))
+        Instructor_Replace_Window.setWindowTitle(_translate("Instructor_Replace_Window", "Update"))
         self.instructor_rename_description_txt.setText(_translate("Instructor_Replace_Window", "Description"))
         self.instructor_rename_staff_id_label.setText(_translate("Instructor_Replace_Window", "Staff"))
         self.instructor_rename_teaching_object_txt.setText(_translate("Instructor_Replace_Window", "Teaching Object"))
         self.instructor_rename_id_label.setText(_translate("Instructor_Replace_Window", "ID"))
+        self.instructor_rename_description_line.setText(str(INSTRUCTOR.Description[0]))
+        self.instructor_rename_teaching_object_line.setText(str(INSTRUCTOR.Teaching_Object[0]))
         for key, value in staff_dict.items():
             self.instructor_rename_staff_id_combo_box.setItemText(value-1, _translate("Instructor_Replace_Window", key))
         for i in range(len(instructor_dict)):
             self.instructor_rename_id_combo_box.setItemText(i, _translate("Instructor_Replace_Window", str(i+1)))
         self.pushButton.setText(_translate("Instructor_Replace_Window", "OK"))
+        self.instructor_rename_id_combo_box.currentIndexChanged.connect(self.updateCombo)
 class Ui_Schedule_Enter_Window(object):
     def setupUi(self, Schedule_Enter_Window):
         Schedule_Enter_Window.setObjectName("Schedule_Enter_Window")
@@ -1337,9 +1367,19 @@ class Ui_Schedule_Replace_Window(object):
         self.retranslateUi(Schedule_Replace_Window)
         QtCore.QMetaObject.connectSlotsByName(Schedule_Replace_Window)
 
+    def updateCombo(self, index):
+        self.schedule_group_replace_comboBox.setCurrentIndex(index)
+        self.schedule_instructor_replace_comboBox.setCurrentIndex(index)
+        self.schedule_subject_replace_comboBox.setCurrentIndex(index)
+        self.schedule_audience_replace_comboBox.setCurrentIndex(index)
+        self.schedule_learningtype_replace_comboBox.setCurrentIndex(index)
+        self.schedule_startdate_replace_lineEdit.setText(str(SCHEDULE.Start_Date[index]))
+        self.schedule_finishdate_replace_lineEdit.setText(str(SCHEDULE.Finish_Date[index]))
+        self.schedule_timeschedule_replace_lineEdit.setText(str(SCHEDULE.Time_Schedule[index]))
+
     def retranslateUi(self, Schedule_Replace_Window):
         _translate = QtCore.QCoreApplication.translate
-        Schedule_Replace_Window.setWindowTitle(_translate("Schedule_Replace_Window", "Replace"))
+        Schedule_Replace_Window.setWindowTitle(_translate("Schedule_Replace_Window", "Update"))
         self.label.setText(_translate("Schedule_Replace_Window", "Group "))
         self.label_3.setText(_translate("Schedule_Replace_Window", "Instructor "))
         self.label_2.setText(_translate("Schedule_Replace_Window", "Subject "))
@@ -1349,6 +1389,9 @@ class Ui_Schedule_Replace_Window(object):
         self.label_7.setText(_translate("Schedule_Replace_Window", "Finish Date"))
         self.label_8.setText(_translate("Schedule_Replace_Window", "Time Schedule"))
         self.label_9.setText(_translate("Schedule_Replace_Window", "Schedule ID"))
+        self.schedule_startdate_replace_lineEdit.setText(str(SCHEDULE.Start_Date[0]))
+        self.schedule_finishdate_replace_lineEdit.setText(str(SCHEDULE.Finish_Date[0]))
+        self.schedule_timeschedule_replace_lineEdit.setText(str(SCHEDULE.Time_Schedule[0]))
         for key,value in group_dict.items():
             self.schedule_group_replace_comboBox.setItemText(value-1, _translate("Schedule_Enter_Window", key))
         for key,value in staff_dict.items():
@@ -1362,6 +1405,7 @@ class Ui_Schedule_Replace_Window(object):
         for i in range(len(SCHEDULE)):
             self.schedule_learningtype_replace_comboBox_2.setItemText(i, _translate("Schedule_Enter_Window", str(i+1)))
         self.Schedule_Replace_pushButton.setText(_translate("Schedule_Replace_Window", "OK"))
+        self.schedule_learningtype_replace_comboBox_2.currentIndexChanged.connect(self.updateCombo)
 class Ui_Staff_Enter_Window(object):
     def setupUi(self, Staff_Enter_Window):
         Staff_Enter_Window.setObjectName("Staff_Enter_Window")
@@ -1624,9 +1668,9 @@ class Ui_Staff_Replace_Window(object):
         self.staff_phonenumber_replace_lineEdit = QtWidgets.QLineEdit(self.frame_4)
         self.staff_phonenumber_replace_lineEdit.setObjectName("staff_phonenumber_replace_lineEdit")
         self.verticalLayout_2.addWidget(self.staff_phonenumber_replace_lineEdit)
-        self.staff_email_entstaff_address_replace_lineEditer_lineEdit = QtWidgets.QLineEdit(self.frame_4)
-        self.staff_email_entstaff_address_replace_lineEditer_lineEdit.setObjectName("staff_email_entstaff_address_replace_lineEditer_lineEdit")
-        self.verticalLayout_2.addWidget(self.staff_email_entstaff_address_replace_lineEditer_lineEdit)
+        self.staff_email_replace_lineEdit = QtWidgets.QLineEdit(self.frame_4)
+        self.staff_email_replace_lineEdit.setObjectName("staff_email_replace_lineEdit")
+        self.verticalLayout_2.addWidget(self.staff_email_replace_lineEdit)
         self.staff_position_replace_comboBox = QtWidgets.QComboBox(self.frame_4)
         self.staff_position_replace_comboBox.setObjectName("staff_position_replace_comboBox")
         for i in range(len(position_dict)):
@@ -1656,9 +1700,19 @@ class Ui_Staff_Replace_Window(object):
         self.retranslateUi(Staff_Replace_Window)
         QtCore.QMetaObject.connectSlotsByName(Staff_Replace_Window)
 
+    def updateCombo(self, index):
+        self.staff_name_replace_lineEdit.setText(str(STAFF.Name[index]))
+        self.staff_lastname_replace_lineEdit.setText(str(STAFF.Last_Name[index]))
+        self.staff_patronymic_replace_lineEdit.setText(str(STAFF.Patronymic[index]))
+        self.staff_education_replace_lineEdit.setText(str(STAFF.Education[index]))
+        self.staff_address_replace_lineEdit.setText(str(STAFF.Address[index]))
+        self.staff_phonenumber_replace_lineEdit.setText(str(STAFF.Phone_Number[index]))
+        self.staff_email_replace_lineEdit.setText(str(STAFF.Email[index]))
+        self.staff_position_replace_comboBox.setCurrentIndex(index)
+
     def retranslateUi(self, Staff_Replace_Window):
         _translate = QtCore.QCoreApplication.translate
-        Staff_Replace_Window.setWindowTitle(_translate("Staff_Replace_Window", "Replace"))
+        Staff_Replace_Window.setWindowTitle(_translate("Staff_Replace_Window", "Update"))
         self.label.setText(_translate("Staff_Replace_Window", "Name"))
         self.label_3.setText(_translate("Staff_Replace_Window", "Last Name"))
         self.label_2.setText(_translate("Staff_Replace_Window", "Patronymic"))
@@ -1668,11 +1722,19 @@ class Ui_Staff_Replace_Window(object):
         self.label_7.setText(_translate("Staff_Replace_Window", "Email"))
         self.label_8.setText(_translate("Staff_Replace_Window", "Position "))
         self.label_10.setText(_translate("Staff_Replace_Window", "ID"))
+        self.staff_name_replace_lineEdit.setText(str(STAFF.Name[0]))
+        self.staff_lastname_replace_lineEdit.setText(str(STAFF.Last_Name[0]))
+        self.staff_patronymic_replace_lineEdit.setText(str(STAFF.Patronymic[0]))
+        self.staff_education_replace_lineEdit.setText(str(STAFF.Education[0]))
+        self.staff_address_replace_lineEdit.setText(str(STAFF.Address[0]))
+        self.staff_phonenumber_replace_lineEdit.setText(str(STAFF.Phone_Number[0]))
+        self.staff_email_replace_lineEdit.setText(str(STAFF.Email[0]))
         for key,value in position_dict.items():
             self.staff_position_replace_comboBox.setItemText(value-1, _translate("Staff_Replace_Window", key))
         for i in range(len(staff_dict)):
             self.staff_id_replace_comboBox.setItemText(i, _translate("Staff_Replace_Window", str(i+1)))
         self.Staff_Replace_pushButton.setText(_translate("Staff_Replace_Window", "OK"))
+        self.staff_id_replace_comboBox.currentIndexChanged.connect(self.updateCombo)
 class Ui_Student_Enter_window(object):
     def setupUi(self, Student_Enter_window):
         Student_Enter_window.setObjectName("Student_Enter_window")
@@ -1946,9 +2008,19 @@ class Ui_Student_Replace_window(object):
         self.retranslateUi(Student_Replace_window)
         QtCore.QMetaObject.connectSlotsByName(Student_Replace_window)
 
+    def updateCombo(self, index):
+        self.student_replace_name_lineEdit.setText(str(STUDENTS.Name[index]))
+        self.student_replace_LName_lineEdit.setText(str(STUDENTS.Last_Name[index]))
+        self.student_replace_patro_lineEdit.setText(str(STUDENTS.Patronymic[index]))
+        self.student_replace_BDate_lineEdit.setText(str(STUDENTS.Birth_Date[index]))
+        self.student_replace_address_lineEdit.setText(str(STUDENTS.Address[index]))
+        self.student_replace_PNumber_lineEdit.setText(str(STUDENTS.Phone_Number[index]))
+        self.student_replace_email_lineEdit.setText(str(STUDENTS.Email[index]))
+        self.student_replace_passportlineEdit.setText(STUDENTS.Passport_ID[index])
+
     def retranslateUi(self, Student_Replace_window):
         _translate = QtCore.QCoreApplication.translate
-        Student_Replace_window.setWindowTitle(_translate("Student_Replace_window", "Replace"))
+        Student_Replace_window.setWindowTitle(_translate("Student_Replace_window", "Update"))
         self.label_8.setText(_translate("Student_Replace_window", "Name"))
         self.label.setText(_translate("Student_Replace_window", "Last Name"))
         self.label_3.setText(_translate("Student_Replace_window", "Patronymic"))
@@ -1958,9 +2030,18 @@ class Ui_Student_Replace_window(object):
         self.label_6.setText(_translate("Student_Replace_window", "Email"))
         self.label_7.setText(_translate("Student_Replace_window", "Passport ID"))
         self.label_9.setText(_translate("Student_Replace_window", "ID"))
+        self.student_replace_name_lineEdit.setText(str(STUDENTS.Name[0]))
+        self.student_replace_LName_lineEdit.setText(str(STUDENTS.Last_Name[0]))
+        self.student_replace_patro_lineEdit.setText(str(STUDENTS.Patronymic[0]))
+        self.student_replace_BDate_lineEdit.setText(str(STUDENTS.Birth_Date[0]))
+        self.student_replace_address_lineEdit.setText(str(STUDENTS.Address[0]))
+        self.student_replace_PNumber_lineEdit.setText(str(STUDENTS.Phone_Number[0]))
+        self.student_replace_email_lineEdit.setText(str(STUDENTS.Email[0]))
+        self.student_replace_passportlineEdit.setText(STUDENTS.Passport_ID[0])
         for i in range(len(student_dict)):
             self.student_replace_ID_comboBox.setItemText(i, _translate("Student_Replace_window", str(i+1)))
         self.student_replace_pushButton.setText(_translate("Student_Replace_window", "OK"))
+        self.student_replace_ID_comboBox.currentIndexChanged.connect(self.updateCombo)
 class Ui_Subject_Enter_Window(object):
     def setupUi(self, Subject_Enter_Window):
         Subject_Enter_Window.setObjectName("Subject_Enter_Window")
@@ -2148,19 +2229,29 @@ class Ui_Subject_Replace_Window(object):
         self.retranslateUi(Subject_Replace_Window)
         QtCore.QMetaObject.connectSlotsByName(Subject_Replace_Window)
 
+    def updateCombo(self, index):
+        self.subjects_rename_category_id_combo_box.setCurrentIndex(index)
+        self.subject_rename_title_line.setText(str(SUBJECT.Title[index]))
+        self.subjects_rename_description_line.setText(str(SUBJECT.Description[index]))
+        self.subject_rename_price_line.setText(str(SUBJECT.Price[index]))
+
     def retranslateUi(self, Subject_Replace_Window):
         _translate = QtCore.QCoreApplication.translate
-        Subject_Replace_Window.setWindowTitle(_translate("Subject_Replace_Window", "Replace"))
+        Subject_Replace_Window.setWindowTitle(_translate("Subject_Replace_Window", "Update"))
         self.subjects_rename_title_txt.setText(_translate("Subject_Replace_Window", "Title"))
         self.subjects_enter_category_id_label_txt.setText(_translate("Subject_Replace_Window", "Category"))
         self.subjects_rename_description_txt.setText(_translate("Subject_Replace_Window", "Description"))
         self.subjects_rename_price_txt.setText(_translate("Subject_Replace_Window", "Price"))
         self.subjects_rename_id_label_txt.setText(_translate("Subject_Replace_Window", "ID"))
+        self.subject_rename_title_line.setText(str(SUBJECT.Title[0]))
+        self.subjects_rename_description_line.setText(str(SUBJECT.Description[0]))
+        self.subject_rename_price_line.setText(str(SUBJECT.Price[0]))
         for key, value in category_dict.items():
             self.subjects_rename_category_id_combo_box.setItemText(value-1, _translate("Subject_Replace_Window", key))
         for i in range(len(subject_dict)):
             self.subject_rename_id_combo_box.setItemText(i, _translate("Subject_Replace_Window", str(i+1)))
         self.pushButton.setText(_translate("Subject_Replace_Window", "OK"))
+        self.subject_rename_id_combo_box.currentIndexChanged.connect(self.updateCombo)
 
 ### MAIN WINDOW CLASS
 class MainWindow(QtWidgets.QMainWindow):
