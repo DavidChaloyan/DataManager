@@ -1372,7 +1372,7 @@ class Ui_Schedule_Replace_Window(object):
         self.schedule_instructor_replace_comboBox.setCurrentIndex(index)
         self.schedule_subject_replace_comboBox.setCurrentIndex(index)
         self.schedule_audience_replace_comboBox.setCurrentIndex(index)
-        self.schedule_learningtype_replace_comboBox.setCurrentIndex(index)
+        self.schedule_learningtype_replace_comboBox.setCurrentText(str(lType_ID_dict[SCHEDULE.Learning_Type_ID[index]]))
         self.schedule_startdate_replace_lineEdit.setText(str(SCHEDULE.Start_Date[index]))
         self.schedule_finishdate_replace_lineEdit.setText(str(SCHEDULE.Finish_Date[index]))
         self.schedule_timeschedule_replace_lineEdit.setText(str(SCHEDULE.Time_Schedule[index]))
