@@ -1,2 +1,3 @@
 # DataManager
-This is an example of education server data base controller app 
+DataManager is an example of SQL data visualization. We constructed a model of education center, 
+and based on that, we made this application to view features on database.
