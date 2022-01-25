@@ -348,6 +348,7 @@ class Ui_Form(object):
         self.formLayout_2.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.ip_host)
         self.ip_host.setStyleSheet("background-color: #A4A4A4;")
         self.data_base = QtWidgets.QLineEdit(self.widget)
+        self.data_base.setEchoMode(QtWidgets.QLineEdit.Password)
         self.data_base.setMinimumSize(QtCore.QSize(256, 60))
         font = QtGui.QFont()
         font.setPointSize(20)
