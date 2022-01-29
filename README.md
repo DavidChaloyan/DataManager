@@ -1,7 +1,7 @@
 <div id="top"></div>
 
 <div align="center">
-  <a href="https://github.com/00kar/DataManager.git">
+  <a href="https://coloai.mystrikingly.com/">
     <img src="https://raw.githubusercontent.com/00kar/DataManager/main/icons8-logo-48.ico" alt="Logo" width="80" height="80">
   </a>
 
